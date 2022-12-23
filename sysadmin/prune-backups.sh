@@ -1,13 +1,10 @@
 #!/bin/bash
-
-# Delete sorting by timestamp files in subdirectories of the specified folder.
-# Useful when keeping backups organized by subfolders.
-BAK_DIR=""
+BAK_DIR="/blackbox/BAK/pod_volumes"
 
 KEEP=${1:-9}
 DELETE=$(( ${1:-9} + 1 ))
 
-read -p "Pruning directories in $BAK_DIR (while keeping last $KEEP backups). Press ENTER to confirm, or Ctrl+C to exit: "
+read -p "Pruning directories while keeping last $KEEP backups in $BAK_DIR. Press ENTER to confirm: "
 
 for directory in $BAK_DIR/* ; do
         echo "Pruning $directory (keeping last $KEEP)..."
