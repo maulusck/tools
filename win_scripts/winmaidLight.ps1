@@ -10,6 +10,8 @@ If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 	Exit
 }
 
+
+
 ##########
 # Privacy Settings
 ##########
@@ -34,9 +36,9 @@ Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\Allo
 # Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots" -Name "Value" -Type DWord -Value 1
 
 # Disable SmartScreen Filter
-Write-Host "Disabling SmartScreen Filter..."
-Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "SmartScreenEnabled" -Type String -Value "Off"
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation" -Type DWord -Value 0
+#Write-Host "Disabling SmartScreen Filter..."
+#Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "SmartScreenEnabled" -Type String -Value "Off"
+#Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation" -Type DWord -Value 0
 
 # Enable SmartScreen Filter
 # Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "SmartScreenEnabled" -Type String -Value "RequireAdmin"
@@ -168,18 +170,18 @@ Set-Service "DiagTrack" -StartupType Disabled
 # Remove-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows Defender" -Name "DisableAntiSpyware"
 
 # Disable Windows Update automatic restart
-Write-Host "Disabling Windows Update automatic restart..."
-Set-ItemProperty -Path "HKLM:\Software\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type DWord -Value 1
+#Write-Host "Disabling Windows Update automatic restart..."
+#Set-ItemProperty -Path "HKLM:\Software\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type DWord -Value 1
 
 # Enable Windows Update automatic restart
 # Set-ItemProperty -Path "HKLM:\Software\Microsoft\WindowsUpdate\UX\Settings" -Name "UxOption" -Type DWord -Value 0
 
 # Stop and disable Home Groups services
-Write-Host "Stopping and disabling Home Groups services..."
-Stop-Service "HomeGroupListener"
-Set-Service "HomeGroupListener" -StartupType Disabled
-Stop-Service "HomeGroupProvider"
-Set-Service "HomeGroupProvider" -StartupType Disabled
+#Write-Host "Stopping and disabling Home Groups services..."
+#Stop-Service "HomeGroupListener"
+#Set-Service "HomeGroupListener" -StartupType Disabled
+#Stop-Service "HomeGroupProvider"
+#Set-Service "HomeGroupProvider" -StartupType Disabled
 
 # Enable and start Home Groups services
 # Set-Service "HomeGroupListener" -StartupType Manual
@@ -187,8 +189,8 @@ Set-Service "HomeGroupProvider" -StartupType Disabled
 # Start-Service "HomeGroupProvider"
 
 # Disable Remote Assistance
-Write-Host "Disabling Remote Assistance..."
-Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value 0
+#Write-Host "Disabling Remote Assistance..."
+#Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value 0
 
 # Enable Remote Assistance
 # Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Remote Assistance" -Name "fAllowToGetHelp" -Type DWord -Value 1
@@ -199,8 +201,8 @@ Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Remote Assistance
 # Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" -Name "UserAuthentication" -Type DWord -Value 0
 
 # Disable Remote Desktop
-Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Terminal Server" -Name "fDenyTSConnections" -Type DWord -Value 1
-Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" -Name "UserAuthentication" -Type DWord -Value 1
+#Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Terminal Server" -Name "fDenyTSConnections" -Type DWord -Value 1
+#Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" -Name "UserAuthentication" -Type DWord -Value 1
 
 ##########
 # UI Tweaks
@@ -236,11 +238,11 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
 # Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\AutoplayHandlers" -Name "DisableAutoplay" -Type DWord -Value 0
 
 # Disable Autorun for all drives
-Write-Host "Disabling Autorun for all drives..."
-If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
-New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" | Out-Null
-}
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoDriveTypeAutoRun" -Type DWord -Value 255
+# Write-Host "Disabling Autorun for all drives..."
+# If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer")) {
+#	New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" | Out-Null
+#}
+# Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoDriveTypeAutoRun" -Type DWord -Value 255
 
 # Enable Autorun
 # Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoDriveTypeAutoRun"
@@ -253,8 +255,8 @@ Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\StickyKeys" -Name "Fla
 # Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\StickyKeys" -Name "Flags" -Type String -Value "510"
 
 # Hide Search button / box
-Write-Host "Hiding Search Box / Button..."
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
+#Write-Host "Hiding Search Box / Button..."
+#Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
 
 # Show Search button / box
 # Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode"
@@ -281,8 +283,8 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" 
 Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarGlomLevel"
 
 # Show all tray icons
-Write-Host "Showing all tray icons..."
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "EnableAutoTray" -Type DWord -Value 0
+#Write-Host "Showing all tray icons..."
+#Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "EnableAutoTray" -Type DWord -Value 0
 
 # Hide tray icons as needed
 # Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "EnableAutoTray"
@@ -294,9 +296,9 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
 # Hide known file extensions
 # Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideFileExt" -Type DWord -Value 1
 
-Show hidden files
-Write-Host "Showing hidden files..."
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Type DWord -Value 1
+# Show hidden files
+# Write-Host "Showing hidden files..."
+# Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Type DWord -Value 1
 
 # Hide hidden files
 # Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Type DWord -Value 2
@@ -309,12 +311,12 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
 # Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "LaunchTo"
 
 # Show Computer shortcut on desktop
-Write-Host "Showing Computer shortcut on desktop..."
-If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu")) {
-New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" | Out-Null
-}
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" -Name "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" -Type DWord -Value 0
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" -Type DWord -Value 0
+ Write-Host "Showing Computer shortcut on desktop..."
+ If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu")) {
+	New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" | Out-Null
+ }
+ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" -Name "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" -Type DWord -Value 0
+ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" -Name "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" -Type DWord -Value 0
 
 # Hide Computer shortcut from desktop
 # Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu" -Name "{20D04FE0-3AEA-1069-A2D8-08002B30309D}"
@@ -325,7 +327,7 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
 # Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}" -Recurse -ErrorAction SilentlyContinue
 
 # Add Desktop icon to computer namespace
-New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}"
+# New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}"
 
 # Remove Documents icon from computer namespace
 # Write-Host "Removing Documents icon from computer namespace..."
@@ -333,8 +335,8 @@ New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyCompu
 # Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{A8CDFF1C-4878-43be-B5FD-F8091C1C60D0}" -Recurse -ErrorAction SilentlyContinue
 
 # Add Documents icon to computer namespace
-New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{d3162b92-9365-467a-956b-92703aca08af}"
-New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{A8CDFF1C-4878-43be-B5FD-F8091C1C60D0}"
+# New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{d3162b92-9365-467a-956b-92703aca08af}"
+# New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{A8CDFF1C-4878-43be-B5FD-F8091C1C60D0}"
 
 # Remove Downloads icon from computer namespace
 # Write-Host "Removing Downloads icon from computer namespace..."
@@ -342,8 +344,8 @@ New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyCompu
 # Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{374DE290-123F-4565-9164-39C4925E467B}" -Recurse -ErrorAction SilentlyContinue
 
 # Add Downloads icon to computer namespace
-New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{088e3905-0323-4b02-9826-5d99428e115f}"
-New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{374DE290-123F-4565-9164-39C4925E467B}"
+# New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{088e3905-0323-4b02-9826-5d99428e115f}"
+# New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{374DE290-123F-4565-9164-39C4925E467B}"
 
 # Remove Music icon from computer namespace
 # Write-Host "Removing Music icon from computer namespace..."
@@ -351,8 +353,8 @@ New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyCompu
 # Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{1CF1260C-4DD0-4ebb-811F-33C572699FDE}" -Recurse -ErrorAction SilentlyContinue
 
 # Add Music icon to computer namespace
-New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{3dfdf296-dbec-4fb4-81d1-6a3438bcf4de}"
-New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{1CF1260C-4DD0-4ebb-811F-33C572699FDE}"
+# New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{3dfdf296-dbec-4fb4-81d1-6a3438bcf4de}"
+# New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{1CF1260C-4DD0-4ebb-811F-33C572699FDE}"
 
 # Remove Pictures icon from computer namespace
 # Write-Host "Removing Pictures icon from computer namespace..."
@@ -360,8 +362,8 @@ New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyCompu
 # Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{3ADD1653-EB32-4cb0-BBD7-DFA0ABB5ACCA}" -Recurse -ErrorAction SilentlyContinue
 
 # Add Pictures icon to computer namespace
-New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{24ad3ad4-a569-4530-98e1-ab02f9417aa8}"
-New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{3ADD1653-EB32-4cb0-BBD7-DFA0ABB5ACCA}"
+# New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{24ad3ad4-a569-4530-98e1-ab02f9417aa8}"
+# New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{3ADD1653-EB32-4cb0-BBD7-DFA0ABB5ACCA}"
 
 # Remove Videos icon from computer namespace
 # Write-Host "Removing Videos icon from computer namespace..."
@@ -369,8 +371,8 @@ New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyCompu
 # Remove-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{A0953C92-50DC-43bf-BE83-3742FED03C9C}" -Recurse -ErrorAction SilentlyContinue
 
 # Add Videos icon to computer namespace
-New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{f86fa3ab-70d2-4fc7-9c99-fcbf05467f3a}"
-New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{A0953C92-50DC-43bf-BE83-3742FED03C9C}"
+# New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{f86fa3ab-70d2-4fc7-9c99-fcbf05467f3a}"
+# New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{A0953C92-50DC-43bf-BE83-3742FED03C9C}"
 
 ## Add secondary en-US keyboard
 #Write-Host "Adding secondary en-US keyboard..."
@@ -389,44 +391,45 @@ New-Item -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer\MyCompu
 ##########
 
 # Disable OneDrive
-Write-Host "Disabling OneDrive..."
-If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive")) {
-	New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" | Out-Null
-}
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" -Name "DisableFileSyncNGSC" -Type DWord -Value 1
+#Write-Host "Disabling OneDrive..."
+#If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive")) {
+#	New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" | Out-Null
+#}
+#Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" -Name "DisableFileSyncNGSC" -Type DWord -Value 1
 
 # Enable OneDrive
 # Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" -Name "DisableFileSyncNGSC"
 
-Uninstall OneDrive (WINDOWS WILL NOT SYSPREP WITHOUT IT!)
-Write-Host "Uninstalling OneDrive..."
-Stop-Process -Name OneDrive -ErrorAction SilentlyContinue
-Start-Sleep -s 3
-$onedrive = "$env:SYSTEMROOT\SysWOW64\OneDriveSetup.exe"
-If (!(Test-Path $onedrive)) {
-	$onedrive = "$env:SYSTEMROOT\System32\OneDriveSetup.exe"
-}
-Start-Process $onedrive "/uninstall" -NoNewWindow -Wait
-Start-Sleep -s 3
-Stop-Process -Name explorer -ErrorAction SilentlyContinue
-Start-Sleep -s 3
-Remove-Item "$env:USERPROFILE\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
-Remove-Item "$env:LOCALAPPDATA\Microsoft\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
-Remove-Item "$env:PROGRAMDATA\Microsoft OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
-If (Test-Path "$env:SYSTEMDRIVE\OneDriveTemp") {
-	Remove-Item "$env:SYSTEMDRIVE\OneDriveTemp" -Force -Recurse -ErrorAction SilentlyContinue
-}
-If (!(Test-Path "HKCR:")) {
-	New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
-}
-Remove-Item -Path "HKCR:\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse -ErrorAction SilentlyContinue
-Remove-Item -Path "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse -ErrorAction SilentlyContinue
- Install OneDrive
-$onedrive = "$env:SYSTEMROOT\SysWOW64\OneDriveSetup.exe"
-If (!(Test-Path $onedrive)) {
-	$onedrive = "$env:SYSTEMROOT\System32\OneDriveSetup.exe"
-}
-Start-Process $onedrive -NoNewWindow
+# Uninstall OneDrive (WINDOWS WILL NOT SYSPREP WITHOUT IT!)
+# Write-Host "Uninstalling OneDrive..."
+# Stop-Process -Name OneDrive -ErrorAction SilentlyContinue
+# Start-Sleep -s 3
+# $onedrive = "$env:SYSTEMROOT\SysWOW64\OneDriveSetup.exe"
+# If (!(Test-Path $onedrive)) {
+# 	$onedrive = "$env:SYSTEMROOT\System32\OneDriveSetup.exe"
+# }
+# Start-Process $onedrive "/uninstall" -NoNewWindow -Wait
+# Start-Sleep -s 3
+# Stop-Process -Name explorer -ErrorAction SilentlyContinue
+# Start-Sleep -s 3
+# Remove-Item "$env:USERPROFILE\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
+# Remove-Item "$env:LOCALAPPDATA\Microsoft\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
+# Remove-Item "$env:PROGRAMDATA\Microsoft OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
+# If (Test-Path "$env:SYSTEMDRIVE\OneDriveTemp") {
+# 	Remove-Item "$env:SYSTEMDRIVE\OneDriveTemp" -Force -Recurse -ErrorAction SilentlyContinue
+# }
+# If (!(Test-Path "HKCR:")) {
+# 	New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
+# }
+# Remove-Item -Path "HKCR:\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse -ErrorAction SilentlyContinue
+# Remove-Item -Path "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse -ErrorAction SilentlyContinue
+
+# Install OneDrive
+# $onedrive = "$env:SYSTEMROOT\SysWOW64\OneDriveSetup.exe"
+# If (!(Test-Path $onedrive)) {
+# 	$onedrive = "$env:SYSTEMROOT\System32\OneDriveSetup.exe"
+# }
+# Start-Process $onedrive -NoNewWindow
 
 # Uninstall default Microsoft applications
 Write-Host "Uninstalling default Microsoft applications..."
@@ -441,9 +444,9 @@ Get-AppxPackage "Microsoft.MicrosoftSolitaireCollection" | Remove-AppxPackage
 Get-AppxPackage "Microsoft.Office.OneNote" | Remove-AppxPackage
 Get-AppxPackage "Microsoft.People" | Remove-AppxPackage
 Get-AppxPackage "Microsoft.SkypeApp" | Remove-AppxPackage
-Get-AppxPackage "Microsoft.Windows.Photos" | Remove-AppxPackage
-Get-AppxPackage "Microsoft.WindowsAlarms" | Remove-AppxPackage
-Get-AppxPackage "Microsoft.WindowsCamera" | Remove-AppxPackage
+#Get-AppxPackage "Microsoft.Windows.Photos" | Remove-AppxPackage
+# Get-AppxPackage "Microsoft.WindowsAlarms" | Remove-AppxPackage
+# Get-AppxPackage "Microsoft.WindowsCamera" | Remove-AppxPackage
 Get-AppxPackage "microsoft.windowscommunicationsapps" | Remove-AppxPackage
 Get-AppxPackage "Microsoft.WindowsMaps" | Remove-AppxPackage
 Get-AppxPackage "Microsoft.WindowsPhone" | Remove-AppxPackage
@@ -511,8 +514,8 @@ Get-AppBackgroundTask "Microsoft.XboxIdentityProvider" | Remove-AppPackage
 # dism /online /Enable-Feature /FeatureName:MediaPlayback /Quiet /NoRestart
 
 # Uninstall Work Folders Client
-Write-Host "Uninstalling Work Folders Client..."
-dism /online /Disable-Feature /FeatureName:WorkFolders-Client /Quiet /NoRestart
+#Write-Host "Uninstalling Work Folders Client..."
+#dism /online /Disable-Feature /FeatureName:WorkFolders-Client /Quiet /NoRestart
 
 # Install Work Folders Client
 # dism /online /Enable-Feature /FeatureName:WorkFolders-Client /Quiet /NoRestart
@@ -564,19 +567,19 @@ Set-ItemProperty -Path "HKCR:\Applications\photoviewer.dll\shell\open\DropTarget
 $services = @(
     "diagnosticshub.standardcollector.service" # Microsoft (R) Diagnostics Hub Standard Collector Service
     "DiagTrack"                                # Diagnostics Tracking Service
-    "dmwappushservice"                         # WAP Push Message Routing Service (see known issues)
+    #"dmwappushservice"                         # WAP Push Message Routing Service (see known issues)
     "lfsvc"                                    # Geolocation Service
     "MapsBroker"                               # Downloaded Maps Manager
-    "NetTcpPortSharing"                        # Net.Tcp Port Sharing Service
-    "RemoteAccess"                             # Routing and Remote Access
-    "RemoteRegistry"                         # Remote Registry
-    "SharedAccess"                             # Internet Connection Sharing (ICS)
+    #"NetTcpPortSharing"                        # Net.Tcp Port Sharing Service
+    #"RemoteAccess"                             # Routing and Remote Access
+    # "RemoteRegistry"                         # Remote Registry
+    #"SharedAccess"                             # Internet Connection Sharing (ICS)
     "TrkWks"                                   # Distributed Link Tracking Client
     "WbioSrvc"                               # Windows Biometric Service (required for Fingerprint reader / facial detection)
-    "WlanSvc"                                 # WLAN AutoConfig
+    #"WlanSvc"                                 # WLAN AutoConfig
     "WMPNetworkSvc"                            # Windows Media Player Network Sharing Service
-    "wscsvc"                                  # Windows Security Center Service
-    "WSearch"                                 # Windows Search
+    #"wscsvc"                                  # Windows Security Center Service
+    #"WSearch"                                 # Windows Search
     "XblAuthManager"                           # Xbox Live Auth Manager
     "XblGameSave"                              # Xbox Live Game Save Service
     "XboxNetApiSvc"                            # Xbox Live Networking Service
@@ -595,32 +598,32 @@ foreach ($service in $services) {
 # This script optimizes Windows updates by disabling automatic download and
 # seeding updates to other computers.
 #
-Import-Module -DisableNameChecking $PSScriptRoot\..\lib\New-FolderForced.psm1
+#Import-Module -DisableNameChecking $PSScriptRoot\..\lib\New-FolderForced.psm1
 
-Write-Output "Disable automatic download and installation of Windows updates"
-New-FolderForced -Path "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU" "NoAutoUpdate" 0
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU" "AUOptions" 2
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU" "ScheduledInstallDay" 0
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU" "ScheduledInstallTime" 3
+#Write-Output "Disable automatic download and installation of Windows updates"
+#New-FolderForced -Path "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU"
+#Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU" "NoAutoUpdate" 0
+#Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU" "AUOptions" 2
+#Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU" "ScheduledInstallDay" 0
+#Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\WindowsUpdate\AU" "ScheduledInstallTime" 3
 
-Write-Output "Disable seeding of updates to other computers via Group Policies"
-New-FolderForced -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization"
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" "DODownloadMode" 0
+#Write-Output "Disable seeding of updates to other computers via Group Policies"
+#New-FolderForced -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization"
+#Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" "DODownloadMode" 0
 
 #echo "Disabling automatic driver update"
 #sp "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching" "SearchOrderConfig" 0
 
-$objSID = New-Object System.Security.Principal.SecurityIdentifier "S-1-1-0"
-$EveryOne = $objSID.Translate( [System.Security.Principal.NTAccount]).Value
+#$objSID = New-Object System.Security.Principal.SecurityIdentifier "S-1-1-0"
+#$EveryOne = $objSID.Translate( [System.Security.Principal.NTAccount]).Value
 
 
-Write-Output "Disable 'Updates are available' message"
+#Write-Output "Disable 'Updates are available' message"
 
-takeown /F "$env:WinDIR\System32\MusNotification.exe"
-icacls "$env:WinDIR\System32\MusNotification.exe" /deny "$($EveryOne):(X)"
-takeown /F "$env:WinDIR\System32\MusNotificationUx.exe"
-icacls "$env:WinDIR\System32\MusNotificationUx.exe" /deny "$($EveryOne):(X)"
+#takeown /F "$env:WinDIR\System32\MusNotification.exe"
+#icacls "$env:WinDIR\System32\MusNotification.exe" /deny "$($EveryOne):(X)"
+#takeown /F "$env:WinDIR\System32\MusNotificationUx.exe"
+#icacls "$env:WinDIR\System32\MusNotificationUx.exe" /deny "$($EveryOne):(X)"
 
 
 # This script removes unwanted Apps that come with Windows. If you  do not want
@@ -643,7 +646,7 @@ $apps = @(
     "Microsoft.BingSports"
     "Microsoft.BingTranslator"
     "Microsoft.BingWeather"
-    "Microsoft.FreshPaint"
+    #"Microsoft.FreshPaint"
     "Microsoft.GamingServices"
     "Microsoft.Microsoft3DViewer"
     "Microsoft.WindowsFeedbackHub"
@@ -659,8 +662,8 @@ $apps = @(
     "Microsoft.Print3D"
     "Microsoft.SkypeApp"
     "Microsoft.Wallet"
-    "Microsoft.Windows.Photos"
-    "Microsoft.WindowsAlarms"
+    # "Microsoft.Windows.Photos"
+    # "Microsoft.WindowsAlarms"
     # "Microsoft.WindowsCalculator"
     # "Microsoft.WindowsCamera"
     "microsoft.windowscommunicationsapps"
@@ -750,9 +753,9 @@ $apps = @(
     "king.com.CandyCrushSodaSaga"
 
     # apps which cannot be removed using Remove-AppxPackage
-    "Microsoft.BioEnrollment"
-    "Microsoft.MicrosoftEdge"
-    "Microsoft.Windows.Cortana"
+    #"Microsoft.BioEnrollment"
+    #"Microsoft.MicrosoftEdge"
+    #"Microsoft.Windows.Cortana"
     "Microsoft.WindowsFeedback"
     "Microsoft.XboxGameCallableUI"
     "Microsoft.XboxIdentityProvider"
@@ -852,11 +855,11 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" 
 #Write-Output "Removing scheduled task"
 #Get-ScheduledTask -TaskPath '\' -TaskName 'OneDrive*' -ea SilentlyContinue | Unregister-ScheduledTask -Confirm:$false
 
-Write-Output "Restarting explorer"
-Start-Process "explorer.exe"
+#Write-Output "Restarting explorer"
+#Start-Process "explorer.exe"
 
-Write-Output "Waiting for explorer to complete loading"
-Start-Sleep 10
+#Write-Output "Waiting for explorer to complete loading"
+#Start-Sleep 10
 
 #Write-Output "Removing additional OneDrive leftovers"
 #foreach ($item in (Get-ChildItem "$env:WinDir\WinSxS\*onedrive*")) {
@@ -958,11 +961,10 @@ Remove-Item $layoutFile
 # if the service is not running. If SYSPREP will be used, add a FirstBootCommand to your   #
 # build to disable the service.                                                            #
 
-reg delete "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\dmwappushservice" /v "DelayedAutoStart" /f
-reg add "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\dmwappushservice" /v "DelayedAutoStart" /t REG_DWORD /d "1"
-reg delete "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\dmwappushservice" /v "Start" /f
-reg add "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\dmwappushservice" /v "Start" /t REG_DWORD /d "2"
-
+#reg delete "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\dmwappushservice" /v "DelayedAutoStart" /f
+#reg add "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\dmwappushservice" /v "DelayedAutoStart" /t REG_DWORD /d "1"
+#reg delete "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\dmwappushservice" /v "Start" /f
+#reg add "HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\dmwappushservice" /v "Start" /t REG_DWORD /d "2"
 # Add the line below to FirstBootCommand in answer file #
 # reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce" /v "disabledmwappushservice" /t REG_SZ /d "sc config dmwappushservice start= disabled"
 
@@ -1030,17 +1032,17 @@ reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Advertising
 
 # Set Windows to Dark Mode #
 
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes" /f
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes" /v "AppsUseLightTheme" /t "REG_DWORD" /d "0" /f
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes" /v "SystemUsesLightTheme" /t "REG_DWORD" /d "0" /f
-reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes" /f
-reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /f
-reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t "REG_DWORD" /d "0" /f
-reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "SystemUsesLightTheme" /t "REG_DWORD" /d "0" /f
-reg add "HKEY_USERS\.DEFAULT\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes" /f
-reg add "HKEY_USERS\.DEFAULT\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /f
-reg add "HKEY_USERS\.DEFAULT\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t "REG_DWORD" /d "0" /f
-reg add "HKEY_USERS\.DEFAULT\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "SystemUsesLightTheme" /t "REG_DWORD" /d "0" /f
+#reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes" /f
+#reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes" /v "AppsUseLightTheme" /t "REG_DWORD" /d "0" /f
+#reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes" /v "SystemUsesLightTheme" /t "REG_DWORD" /d "0" /f
+#reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes" /f
+#reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /f
+#reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t "REG_DWORD" /d "0" /f
+#reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "SystemUsesLightTheme" /t "REG_DWORD" /d "0" /f
+#reg add "HKEY_USERS\.DEFAULT\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes" /f
+#reg add "HKEY_USERS\.DEFAULT\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /f
+#reg add "HKEY_USERS\.DEFAULT\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "AppsUseLightTheme" /t "REG_DWORD" /d "0" /f
+#reg add "HKEY_USERS\.DEFAULT\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "SystemUsesLightTheme" /t "REG_DWORD" /d "0" /f
 
 ##########
 # Restart
