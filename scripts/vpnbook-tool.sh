@@ -19,7 +19,7 @@ packages="
 	https://www.vpnbook.com/free-openvpn-account/vpnbook-openvpn-fr8.zip
 "
 
-echo	--		|v|p|n|b|o|o|k|_|t|o|o|l|		--
+echo '	--		|v|p|n|b|o|o|k|_|t|o|o|l|		--'
 
 cd $install_dir
 for package in $packages; do (
