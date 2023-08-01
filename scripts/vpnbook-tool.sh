@@ -22,7 +22,7 @@ packages="
 cd $install_dir
 for package in $packages; do (
 	printf "Downloading '$package'... "
-#	wget -q -c -t 0 -T 15 $package && echo "Done." || echo "Fail."
+	wget -q -c -t 0 -T 15 $package && echo "Done." || echo "Fail."
 ); done
 cd - >/dev/null
 
