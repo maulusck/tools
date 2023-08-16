@@ -7,7 +7,7 @@ RIP_DIR=/home/${usrnm}/Videos/
 #
 #
 #echo ": UTILITY STARTING..."
-read -p "	>>Insert output name and format[name.format]: " name 
+read -p "	>>Insert output name and format[name.format]: " name
 folder_name=$(echo ${name} | awk -F .  '{print $1}')
 read -p "	>>Press Enter to start copying from DVD..."
 #dvdbackup -M -p --input=/dev/sr0 --output=${RIP_DIR}/${folder_name}

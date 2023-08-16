@@ -28,7 +28,7 @@ for package in $packages; do (
 ); done
 for package in vpnbook-*.zip; do (
 	printf "Extracting '$package'... "
-	7z e -o* $package >/dev/null && (echo "Done." ; rm -f $package) || echo "Fail."
+	7z e -aoa -o* $package >/dev/null && (echo "Done." ; rm -f $package) || echo "Fail."
 ); done
 cd - >/dev/null
 

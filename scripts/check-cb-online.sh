@@ -1,4 +1,5 @@
 #!/bin/bash
+# ;-P
 [ -z "$1" ] && read -p "Select a room: " CAM || CAM=$1
 room_status=$( \
 	curl -sSL chaturbate.com/$CAM | \
