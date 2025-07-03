@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # color codes
 red="\e[0;91m"

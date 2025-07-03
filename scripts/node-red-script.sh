@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Copyright 2016,2022 JS Foundation and other contributors, https://js.foundation/
 # Copyright 2015,2016 IBM Corp.

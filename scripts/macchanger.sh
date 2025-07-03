@@ -1,5 +1,5 @@
 
-#!/bin/bash
+#!/bin/sh
 
 color1="\e[1;35m"
 color2="\e[36m"

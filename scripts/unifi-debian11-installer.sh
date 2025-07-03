@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 #   This script installs the Unifi Controller application on a fresh Debian 11 machine.
 #   It installs dependencies, configures the internal firewall as per Unifi documentation

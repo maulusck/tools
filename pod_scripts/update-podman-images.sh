@@ -1,5 +1,4 @@
 #!/bin/sh
-# fetch new images
-for image in $(podman images | grep -vE 'localhost|REPO' | awk -F " " '{print$1 ":" $2}'); do podman pull $image; done
-# prune blobs
+set -e
+for image in $(podman images --noheadings | grep -v 'localhost' | awk -F " " '{print$1 ":" $2}'); do podman pull $image; done
 podman image prune -f

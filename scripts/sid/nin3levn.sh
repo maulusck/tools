@@ -1,5 +1,5 @@
 
-#!/bin/bash
+#!/bin/sh
 
 #   NinElevn -- evil twin AP creator: global or single target
 #   automatic set connection bridge on ----

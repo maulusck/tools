@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # SANE automated scan. Custom options are for CanoScan LiDE 20 scanner
 

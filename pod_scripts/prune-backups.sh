@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/sh
+set -e
 
 BAK_DIR="/srv/bak/podman/pod_volumes"
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 [ $UID -ne 0 ] && (echo "Please run as root." ; exit 1)
 

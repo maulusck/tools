@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 read -p "Press ENTER to begin shutdown of all nodes: "
 read -p "Press ENTER again: "

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # ;-P
 [ -z "$1" ] && read -p "Select a room: " CAM || CAM=$1
 room_status=$( \
