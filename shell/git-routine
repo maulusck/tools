@@ -1,0 +1,13 @@
+#!/bin/sh
+# git-routine () {
+	[ -z "$1" ] && echo "No commit message." || \
+	(
+	! [ -d ./.git ] && echo "Not a git repository." || \
+	(
+	commit="$@"
+	read -p "Press ENTER to commit '$commit': "
+	git add .
+	git commit -m "$commit"
+	git push
+	))
+#}	; export -f git-routine
