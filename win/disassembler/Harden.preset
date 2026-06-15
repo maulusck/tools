@@ -1,0 +1,23 @@
+# Harden.preset - hardening pass for a standalone laptop.
+# Parallels Default.preset. One function name per line; lines beginning with #
+# are ignored. Only RequireAdmin (first) and WaitForKey (last) are order-sensitive.
+#
+# To run audited Disassembler cleanup in the same pass, add those function names
+# in the CLEANUP block so they execute before the lockdown. Do not load
+# Default.preset itself alongside this one - see README.
+
+RequireAdmin
+
+# --- CLEANUP (audited Disassembler tweaks run here, before lockdown) ---
+
+# --- HARDENING ---
+LockUSBToWhitelist
+DisableWireless
+DisableBluetooth
+DisablePrivacyExperienceOnLogon
+SetupAccountSeparation
+HardenUAC
+EnableFirewallStrict
+
+HardenVerify
+WaitForKey

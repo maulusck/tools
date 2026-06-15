@@ -1,3 +1,128 @@
+> work in progress
+# win-harden
+
+A small, self-contained hardening companion for [Disassembler0's Win10-Initial-Setup-Script](https://github.com/Disassembler0/Win10-Initial-Setup-Script). It adds local-policy lockdown to a **single, standalone (non-domain, no-Intune) Windows laptop** without touching any of the upstream files.
+
+It is a "fork by addition": three files that sit next to the upstream trio and reuse its runner. The upstream tool keeps doing what it does; this adds the security controls.
+
+| This file | Parallels upstream | Role |
+|---|---|---|
+| `Harden.psm1` | `Win10.psm1` | Tweak library (loaded via `-include`) |
+| `Harden.preset` | `Default.preset` | Which functions run |
+| `Harden.cmd` | `Default.cmd` | Launcher (reuses `Win10.ps1`) |
+
+## What it does
+
+| Function | Revert twin | Effect |
+|---|---|---|
+| `LockUSBToWhitelist` | `UnlockUSB` | All device classes denied except an allow-list of hardware IDs |
+| `DisableWireless` | `EnableWireless` | Disables the WLAN AutoConfig service (`WlanSvc`) |
+| `DisableBluetooth` | `EnableBluetooth` | Disables the Bluetooth Support Service (`bthserv`) |
+| `SetupAccountSeparation` | — | Creates a dedicated admin + a standard user, disables built-in Administrator |
+| `HardenUAC` | `RestoreUAC` | Always prompt admins on secure desktop; standard users must enter credentials |
+| `EnableFirewallStrict` | `RestoreFirewall` | Firewall on for all profiles, default-deny inbound |
+| `HardenVerify` | — | Prints the live state of every control (read-only) |
+
+## Requirements
+
+- Windows 10 / 11, 64-bit.
+- Administrator rights (the launcher elevates via UAC).
+- The upstream repo present in the same folder.
+
+## Install
+
+```
+git clone https://github.com/Disassembler0/Win10-Initial-Setup-Script
+cd Win10-Initial-Setup-Script
+```
+
+Copy `Harden.psm1`, `Harden.preset`, and `Harden.cmd` into that folder, next to `Win10.ps1`.
+
+## Configure
+
+Edit the top of `Harden.psm1`:
+
+- `$USBAllowList` — extra USB hardware IDs to always allow. Usually you can leave this empty and rely on capture (below). Add IDs for hardware you want allowed even when it is *not* currently plugged in.
+- `$AdminUserName` / `$StandardUserName` — the local account names to create.
+
+## Run
+
+1. **Plug in everything you want to keep working** — dock, keyboard, mouse, USB ethernet dongle, external monitor.
+2. **Preview the USB capture** (writes nothing):
+   ```
+   powershell -NoProfile -ExecutionPolicy Bypass -Command "Import-Module .\Harden.psm1; LockUSBToWhitelist -DryRun"
+   ```
+   Review the list. Anything you want allowed but couldn't connect now, add to `$USBAllowList`.
+3. **Run it** — double-click `Harden.cmd` and accept the UAC prompt. You'll be asked to set passwords for the two new accounts. Output is also written to `run.log`.
+4. **Confirm** — `HardenVerify` runs at the end and prints the state of all controls. You can re-run it any time:
+   ```
+   powershell -NoProfile -ExecutionPolicy Bypass -Command "Import-Module .\Harden.psm1; HardenVerify"
+   ```
+
+## Running Disassembler cleanup in the same pass
+
+The hardening preset is built to run cleanup **first**, lockdown **last**, so cleanup can't re-open something you locked.
+
+Do **not** load `Default.preset` alongside `Harden.preset` — it carries its own `RequireAdmin`/`WaitForKey`, which would land in the middle of the combined run. Instead, copy the upstream tweak names you've **audited and want** into the `CLEANUP` block of `Harden.preset`. Anything not listed simply doesn't run.
+
+> The upstream README is explicit that its default preset is not safe to run blindly — it hides controls, lowers some settings, and removes apps. Pick deliberately.
+
+## Reverting
+
+Each control has a revert twin. Make a one-line preset and run it through the same launcher pattern, e.g. a `Revert.preset`:
+
+```
+RequireAdmin
+UnlockUSB
+EnableWireless
+EnableBluetooth
+RestoreUAC
+RestoreFirewall
+WaitForKey
+```
+
+```
+powershell -NoProfile -ExecutionPolicy Bypass -File Win10.ps1 -include Harden.psm1 -preset Revert.preset
+```
+
+Account separation has no automatic revert by design (deleting users is destructive). Re-enable the built-in Administrator manually if needed:
+```
+Enable-LocalUser -Name Administrator
+```
+
+## Re-running after Windows Updates
+
+Feature updates can reset some settings. The functions are idempotent — just run `Harden.cmd` again. `LockUSBToWhitelist` rebuilds its allow-list each run, so reconnect your devices first (or rely on `$USBAllowList`).
+
+## Extending it
+
+Add a control = add a function plus its revert twin to `Harden.psm1` (verb-prefixed name, `Write-Output` status line first, idempotent), then add the function name to `Harden.preset`. That's the whole workflow. Natural next additions: BitLocker, AppLocker / WDAC, or an RDP lockdown.
+
+## Caveats / footguns
+
+- **All-class USB whitelist can lock you out.** If the allow-list is missing your input devices or disk controller, you can lose keyboard/mouse on reboot. That's why capture is on by default and an empty allow-list refuses to apply. Always `-DryRun` first, and test on a machine you can recover.
+- **Restrictions gate new installs, not existing devices.** A device already installed keeps working until you remove it in Device Manager. This is by design (no fragile retroactive sweep). Remove unwanted already-installed devices manually if needed.
+- **Wireless = WiFi only.** `DisableWireless` targets `WlanSvc`; `DisableBluetooth` targets `bthserv`. Mobile broadband (WWAN) is separate; add it with the same pattern if required.
+- **`EnableWireless` sets `WlanSvc` to Automatic.** If your baseline differs, adjust the revert.
+- **Passwords are prompted, never stored.** Keep them somewhere safe; there's no recovery in this tooling.
+
+## License
+
+The upstream project is MIT. Keep its license and copyright notice in any redistribution. These companion files are yours to license as you see fit.
+
+&nbsp;
+
+---
+---
+
+&nbsp;
+
+# Upstream original README (historical)
+
+> The text below is the original `README.md` from [Disassembler0/Win10-Initial-Setup-Script](https://github.com/Disassembler0/Win10-Initial-Setup-Script), preserved verbatim for reference and to satisfy the MIT attribution requirement. The project is archived and unmaintained by its author. Everything **above** this line is the win-harden fork; everything below is the upstream author's own words.
+
+&nbsp;
+
 ## The project is archived
 
 This project has been archived because I no longer use Windows. I grew tired with the system being unable to keep itself configured in the desired state, group policies randomly stopping working for hundreds of managed workstations at once, advertisements, unwanted tips and content popping up on various places throughout the user interface, and incompetent support even for enterprise products. Ultimately I have migrated virtually all my servers, workstations and laptops to linux. Even though there are areas where the open source products are still lacking, the transparency, configurability and reliability greatly outweighs the drawbacks for me.
