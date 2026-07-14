@@ -2,39 +2,56 @@
 # sign liquorix kernels for secure boot. run after each kernel update.
 set -eu
 
-keydir="$HOME/.keys/secureboot"
-key="$keydir/MOK.key"
-crt="$keydir/MOK.crt"
-cer="$keydir/MOK.cer"
+me=${0##*/}
+say() { echo "$me: $*"; }
+die() { echo "$me: $*" >&2; exit 1; }
 
-# key: generate once
-if [ ! -f "$key" ] || [ ! -f "$crt" ]; then
-	mkdir -p -m 700 "$keydir"
-	openssl req -new -x509 -newkey rsa:4096 -nodes -days 3650 \
-		-keyout "$key" -out "$crt" -subj "/CN=Liquorix $(hostname)/"
-	echo "generated $key"
+if [ "$(id -u)" -eq 0 ]; then
+	as_root() { "$@"; }
+else
+	command -v sudo >/dev/null || die "not root and no sudo"
+	as_root() { sudo "$@"; }
 fi
+
+# keys live with the human, never /root. userless box -> /etc.
+if [ -n "${SUDO_USER:-}" ]; then
+	keydir=$(getent passwd "$SUDO_USER" | cut -d: -f6)/.keys/secureboot
+elif [ "$(id -u)" -ne 0 ]; then
+	keydir=${HOME:?}/.keys/secureboot
+else
+	keydir=/etc/secureboot
+fi
+keydir=${SECUREBOOT_KEYDIR:-$keydir}
+key=$keydir/MOK.key crt=$keydir/MOK.crt cer=$keydir/MOK.cer
+
+umask 077
+mkdir -p "$keydir"
+[ -f "$key" ] && [ -f "$crt" ] || {
+	openssl req -new -x509 -newkey rsa:4096 -nodes -days 3650 \
+		-keyout "$key" -out "$crt" -subj "/CN=Liquorix $(hostname)/" 2>/dev/null ||
+		die "keygen failed"
+	say "generated $crt"
+}
 [ -f "$cer" ] || openssl x509 -in "$crt" -outform DER -out "$cer"
 
-# sign: skip kernels already signed by our cert
 found=0
 for k in /boot/vmlinuz*liquorix*; do
 	[ -f "$k" ] || continue
 	found=1
 	if sbverify --cert "$crt" "$k" >/dev/null 2>&1; then
-		echo "ok    $k"
+		say "ok     $k"
+	elif as_root sbsign --key "$key" --cert "$crt" --output "$k" "$k" >/dev/null 2>&1 &&
+		sbverify --cert "$crt" "$k" >/dev/null 2>&1; then
+		say "signed $k"
 	else
-		sudo sbsign --key "$key" --cert "$crt" "$k" --output "$k"
-		echo "signed $k"
+		say "FAILED $k -- damaged, reinstall this kernel package"
 	fi
 done
-[ "$found" = 1 ] || { echo "no liquorix kernel in /boot" >&2; exit 1; }
+[ "$found" = 1 ] || die "no liquorix kernel in /boot"
 
-# enroll: skip if cert already enrolled
-if sudo mokutil --test-key "$cer" >/dev/null 2>&1; then
-	echo "mok already enrolled"
+if as_root mokutil --test-key "$cer" 2>/dev/null | grep -q "already enrolled"; then
+	say "enrolled $cer"
 else
-	echo "setting a one-time MOK password (you'll re-enter it at reboot):"
-	sudo mokutil --import "$cer"
-	echo "mok staged -- reboot, pick 'Enroll MOK', enter that password"
+	as_root mokutil --import "$cer"
+	say "staged -- reboot, pick 'Enroll MOK'"
 fi
