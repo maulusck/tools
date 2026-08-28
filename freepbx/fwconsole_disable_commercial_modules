@@ -1,0 +1,4 @@
+#!/bin/sh
+while fwconsole ma list | grep -v 'sysadmin' |  awk '/Enabled/ && /Commercial/ {print $2}' | read -r m; do
+    fwconsole ma disable "$m"
+done

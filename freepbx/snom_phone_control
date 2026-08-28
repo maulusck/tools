@@ -1,0 +1,29 @@
+#!/bin/sh
+set -eu
+
+case "${1:-}" in
+    reboot) q="reboot=Reboot" ;;
+    reset)  q="reset=Reset" ;;
+    *) echo "Usage: $0 <reboot|reset>" >&2; exit 1 ;;
+esac
+
+stty -echo
+printf "Password: " >&2
+read -r p
+stty echo
+echo >&2
+
+exts=$(mysql -B -N -e "SELECT extension FROM asterisk.users;" | tr '\n' ' ')
+
+asterisk -rx "pjsip show contacts" | awk -v e="$exts" '
+BEGIN { n = split(e, db, " ") }
+{
+    for (i=1; i<=n; i++) {
+        if ($0 ~ "Contact:[[:space:]]+" db[i] "/") {
+            split($2, a, /[@:]/)
+            print a[3], db[i]
+        }
+    }
+}' | while read -r ip ext; do
+    echo "curl -s --digest -u \"admin:$p\" \"http://$ip/advanced_update.htm?$q\" # $ext"
+done
