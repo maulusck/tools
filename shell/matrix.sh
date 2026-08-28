@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 lines=$(tput lines)
 cols=$(tput cols)
 awkscript='
