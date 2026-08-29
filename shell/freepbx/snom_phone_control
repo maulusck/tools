@@ -1,6 +1,8 @@
 #!/bin/sh
 set -eu
 
+for cmd in mysql asterisk; do command -v "$cmd" >/dev/null 2>&1 || { echo "Error: $cmd not found." >&2; exit 127; }; done
+
 case "${1:-}" in
     reboot) q="reboot=Reboot" ;;
     reset)  q="reset=Reset" ;;
@@ -27,3 +29,4 @@ BEGIN { n = split(e, db, " ") }
 }' | while read -r ip ext; do
     echo "curl -s --digest -u \"admin:$p\" \"http://$ip/advanced_update.htm?$q\" # $ext"
 done
+echo "# Pipe to sh to execute: $0 ${1:-} | sh" >&2
