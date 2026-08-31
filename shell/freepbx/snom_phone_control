@@ -27,6 +27,6 @@ BEGIN { n = split(e, db, " ") }
         }
     }
 }' | while read -r ip ext; do
-    echo "curl -s --digest -u \"admin:$p\" \"http://$ip/advanced_update.htm?$q\" # $ext"
+    echo "curl -s -k --digest -u \"admin:$p\" \"https://$ip/advanced_update.htm?$q\" # $ext"
 done
 echo "# Pipe to sh to execute: $0 ${1:-} | sh" >&2
