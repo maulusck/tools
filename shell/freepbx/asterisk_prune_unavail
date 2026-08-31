@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+
+# Surgically removes only AstDB contact keys flagged as 'Unavail'
+asterisk -rx "pjsip show contacts" | awk '/Unavail/ {print $2, $3}' | while IFS=' ' read -r uri hash; do
+	endpoint="${uri%%/*}"
+	[ -n "$endpoint" ] && [ -n "$hash" ] || continue
+	asterisk -rx "database del registrar/contact ${endpoint};@${hash}" >/dev/null 2>&1 || true
+done
