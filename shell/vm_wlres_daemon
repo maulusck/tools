@@ -1,0 +1,23 @@
+#!/bin/sh
+# POSIX-compliant daemon to counteract Wayland host resolution distortion
+
+TARGET_PORT="Virtual-1"
+TARGET_MODE="1920x1080_60.00"
+TIMINGS="173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync"
+
+# Function to safely inject and enforce the target 1080p resolution
+apply_resolution_lock() {
+    xrandr --newmode "$TARGET_MODE" $TIMINGS 2>/dev/null
+    xrandr --addmode "$TARGET_PORT" "$TARGET_MODE" 2>/dev/null
+    xrandr --output "$TARGET_PORT" --mode "$TARGET_MODE" --scale 1x1 --panning 1920x1080
+}
+
+# 1. Apply immediately on guest session startup
+apply_resolution_lock
+
+# 2. Monitor the root X11 window for configuration changes (resolution, resizing)
+# xev blocks natively and outputs a stream. We loop whenever "ConfigureNotify" fires.
+xev -root -event structure | grep --line-buffered "ConfigureNotify" | while read -r line; do
+    # When Wayland forces a resize event, immediately snap it back
+    apply_resolution_lock
+done
