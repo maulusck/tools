@@ -1,7 +1,13 @@
 ## Local container management scripts
 
-These tools are born from an idea of a `~/local` (configurable) directory containing a subdirectory for each container's data.
-They make themselves useful in small, manually managed containerized environments.
+Tools built around a `~/local` directory holding one subdirectory per container's
+data. Useful for small, manually managed containerized environments.
 
-The `env.sh` defines script variables, as it makes sense to have one central point of configuration.
-> The rest is up to you.
+`env.sh` is the single config point. Everything is overridable via environment:
+
+    CT_BIN     container runtime      (default: podman, else docker)
+    CT_LOCAL   data directory         (default: ~/local)
+    CT_BACKUP  backup directory       (default: /srv/bak/containers)
+    CT_KEEP    backups to retain      (default: 9)
+
+e.g. `CT_BACKUP=/tmp/test ./backup-local.sh`. Pure POSIX sh. The rest is up to you.

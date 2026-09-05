@@ -1,10 +1,10 @@
 #!/bin/sh
 set -e
 . "$(dirname "$0")/env.sh"
-test -d ${LOCAL}||exit 1
-of=${BACKUP}/local-$(date -I).tar.xz
-[ -z "$(command -v tqdm)" ]&&tar cJf ${of} -C $(dirname ${LOCAL}) $(basename ${LOCAL})||(
-  tar cJf - -C $(dirname ${LOCAL}) $(basename ${LOCAL})|
-  tqdm --bytes --total $(du -sb ${LOCAL}|cut -f1) > ${of}
-)||exit 1
-exit 0
+[ -e "$CT_LOCAL" ]
+d=$(dirname "$CT_LOCAL"); b=$(basename "$CT_LOCAL")
+if command -v xz >/dev/null 2>&1; then z=J e=xz; else z=z e=gz; fi
+of="$CT_BACKUP/local-$(date -I).tar.$e"
+if command -v tqdm >/dev/null 2>&1; then
+  tar "c${z}hf" - -C "$d" "$b" | tqdm --bytes --total "$(du -sbL "$CT_LOCAL"|cut -f1)" >"$of"
+else tar "c${z}hf" "$of" -C "$d" "$b"; fi

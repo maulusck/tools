@@ -1,9 +1,9 @@
 #!/bin/sh
 set -e
 . "$(dirname "$0")/env.sh"
-VOLUMES=$($ct volume ls|grep -w local|awk -F " " '{print$2}')
-for v in $VOLUMES;do
-  echo "Backing up $v in $BACKUP/$v..."
-  [ -d $BACKUP/$v ]||mkdir -p $BACKUP/$v
-  $ct volume export $v >$BACKUP/$v/$v-$(date -Iminutes|sed 's|:|-|g;s|+|-|g').tar
+for v in $($ct volume ls --filter driver=local --format '{{.Name}}'); do
+  echo "Backing up $v to $CT_BACKUP/$v..."
+  mkdir -p "$CT_BACKUP/$v"
+  $ct run --rm -v "$v":/data:ro "$CT_IMG" tar cf - -C /data . \
+    >"$CT_BACKUP/$v/$v-$(date -u +%Y%m%dT%H%M%SZ).tar"
 done

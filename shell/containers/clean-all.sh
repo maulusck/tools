@@ -1,3 +1,5 @@
 #!/bin/sh
-podman rm -f $(podman ps --all --storage -q) 2>/dev/null
-podman image prune -f
+set -e
+. "$(dirname "$0")/env.sh"
+$ct rm -f $($ct ps -aq) 2>/dev/null || true
+$ct image prune -f
